@@ -1,0 +1,17 @@
+kind: Gateway
+apiVersion: networking.istio.io/v1beta1
+metadata:
+  name: bookinfo-gateway
+  namespace: primary-bookinfo
+spec:
+  servers:
+    - port:
+        number: 80
+        protocol: HTTP
+        name: http
+      hosts:
+        - >-
+          primary-bookinfo-gw-main-cluster-mesh.apps.<wildcard-info>
+  selector:
+    app: istio-ingressgateway
+

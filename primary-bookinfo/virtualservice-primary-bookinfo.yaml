@@ -1,0 +1,29 @@
+kind: VirtualService
+apiVersion: networking.istio.io/v1beta1
+metadata:
+  name: bookinfo
+  namespace: primary-bookinfo
+spec:
+  hosts:
+    - primary-bookinfo-gw-main-cluster-mesh.apps.acoral.tamlab.rdu2.redhat.com
+  gateways:
+    - bookinfo-gateway
+  http:
+    - match:
+        - uri:
+            exact: /productpage
+        - uri:
+            prefix: /static
+        - uri:
+            exact: /login
+        - uri:
+            exact: /logout
+        - uri:
+            prefix: /api/v1/products
+      route:
+        - destination:
+            host: productpage
+            port:
+              number: 9080
+status: {}
+
