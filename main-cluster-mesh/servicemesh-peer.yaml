@@ -11,7 +11,7 @@ spec:
       name: ingress-secondary-mesh
   remote:
     addresses:
-      - 10.8.51.110
+      - <NODE_IP>
     discoveryPort: 30202
     servicePort: 31547
   security:

@@ -1,0 +1,8 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: secondary-ca-root-cert
+  namespace: main-cluster-mesh
+data:
+  root-cert.pem: |
+  <REPLACE_WITH_THE_VALUE_FROM_THE_SECOND_CLUSTER_CERTIFICATE>
