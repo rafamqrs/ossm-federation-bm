@@ -1,0 +1,49 @@
+apiVersion: maistra.io/v2
+kind: ServiceMeshControlPlane
+metadata:
+  name: secondary-mesh
+spec:
+  gateways:
+    additionalEgress:
+      egress-primary-mesh:
+        enabled: true
+        requestedNetworkView:
+          - primary-network
+        routerMode: sni-dnat
+        service:
+          metadata:
+            labels:
+              federation.maistra.io/egress-for: egress-primary-mesh
+          ports:
+            - name: tls
+              port: 15443
+              targetPort: 0
+            - name: http-discovery
+              port: 8188
+              targetPort: 0
+    additionalIngress:
+      ingress-primary-mesh:
+        enabled: true
+        routerMode: sni-dnat
+        service:
+          metadata:
+            labels:
+              federation.maistra.io/ingress-for: ingress-primary-mesh
+          ports:
+            - name: tls
+              port: 15443
+              targetPort: 0
+            - name: https-discovery
+              port: 8188
+              targetPort: 0
+          type: NodePort
+  profiles:
+    - default
+  runtime:
+    defaults:
+      container:
+        imagePullPolicy: Always
+  security:
+    trust:
+      domain: secondary-mesh.local
+  version: v2.3
