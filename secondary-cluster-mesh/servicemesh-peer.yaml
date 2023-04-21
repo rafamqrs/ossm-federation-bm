@@ -1,0 +1,23 @@
+apiVersion: federation.maistra.io/v1
+kind: ServiceMeshPeer
+metadata:
+  name: primary-mesh
+  namespace: secondary-cluster-mesh
+spec:
+  gateways:
+    egress:
+      name: egress-primary-mesh
+    ingress:
+      name: ingress-primary-mesh
+  remote:
+    addresses:
+      - 10.8.51.19
+    discoveryPort: 31795
+    servicePort: 30196
+  security:
+    certificateChain:
+      kind: ConfigMap
+      name: primary-ca-root-cert
+    clientID: >-
+      primary-mesh.local/ns/main-cluster-mesh/sa/egress-secondary-mesh-service-account
+    trustDomain: primary-mesh.local
